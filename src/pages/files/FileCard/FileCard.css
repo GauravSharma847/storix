@@ -1,0 +1,45 @@
+.file-card {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  padding: 1rem;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius);
+
+  background-color: white;
+}
+
+.file-info {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 0.25rem;
+}
+
+.file-info p {
+  color: var(--text-secondary);
+
+  font-size: 14px;
+}
+
+.file-actions {
+  display: flex;
+
+  gap: 0.5rem;
+}
+
+.file-actions button {
+  padding: 8px 12px;
+
+  border: none;
+
+  border-radius: var(--radius);
+
+  cursor: pointer;
+}

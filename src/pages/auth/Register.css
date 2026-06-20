@@ -1,0 +1,27 @@
+.register-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--background-color);
+}
+
+.register-card {
+  width: 450px;
+
+  background-color: white;
+
+  padding: 2rem;
+
+  border-radius: var(--radius);
+
+  border: 1px solid var(--border-color);
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1rem;
+}

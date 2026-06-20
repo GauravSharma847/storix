@@ -1,0 +1,23 @@
+.files-page {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.files-header {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.files-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 1rem;
+}

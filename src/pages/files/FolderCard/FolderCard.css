@@ -1,0 +1,33 @@
+.folder-card {
+  display: flex;
+
+  align-items: center;
+
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background: white;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius);
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.folder-card:hover {
+  transform: translateY(-2px);
+}
+
+.folder-icon {
+  font-size: 2rem;
+}
+
+.folder-info p {
+  color: var(--text-secondary);
+
+  font-size: 14px;
+}

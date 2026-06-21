@@ -17,7 +17,7 @@ const Login = () => {
         />
         <Input
           label="Password"
-          tyoe="password"
+          type="password"
           placeholder="Enter Password"
         />
 

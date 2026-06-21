@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Dashboard from "../pages/dashboard/DashBoard";
 import Files from "../pages/files/Files";
+import FolderDetails from "../pages/folders/FolderDetails";
 
 function AppRoutes() {
   return (
@@ -12,6 +13,9 @@ function AppRoutes() {
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/files" element={<Files />} />
+      <Route path="/folders/:folderId"
+        element={<FolderDetails />}
+      />
     </Routes>
   );
 }

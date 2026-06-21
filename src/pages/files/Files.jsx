@@ -1,46 +1,107 @@
-import React from 'react'
+import React, { useState } from 'react'
 import AppLayout from '../../layouts/AppLayout';
 import Button from '../../components/common/Button/Button';
-import FileCard from './FileCard/FileCard';
+import FolderCard from './FolderCard/FolderCard';
+import Input from '../../components/common/Input/Input';
 import "./Files.css"
 const Files = () => {
-  const files = [
+  const [showFolderForm, setShowFolderForm] = useState(false);
+  const [folderName, setFolderName] = useState("");
+  const [folders, setFolders] = useState([
     {
-      name: "photo.jpg",
-      size: "2.1 MB",
+      id: 1,
+      name: "Personal",
+      fileCount: 5,
     },
-    {
-      name: "resume.pdf",
-      size: "350 KB",
-    },
-    {
-      name: "project.zip",
-      size: "15 MB",
-    },
-    {
-      name: "notes.docx",
-      size: "120 KB",
-    },
-  ];
+    // {
+    //   id: 2,
+    //   name: "Work",
+    //   fileCount: 12,
+    // },
+    // {
+    //   id: 3,
+    //   name: "College",
+    //   fileCount: 8,
+    // },
+  ]);
+
+  // const handleFileUpload = (event) => {
+  //   const selectedFile = event.target.files[0];
+  //   if (!selectedFile) return;
+
+  //   const newFile = {
+  //     name: selectedFile.name,
+  //     size: `${(selectedFile.size / 1024).toFixed(2)}KB`
+  //   };
+
+  //   setFiles((prevFiles) => [
+  //     ...prevFiles,
+  //     newFile,
+  //   ]);
+  // };
+
+  const createFolder = () => {
+    if (!folderName.trim()) return;
+
+    const newFolder = {
+      id: Date.now(),
+      name: folderName,
+      fileCount: 0,
+    };
+
+    setFolders((prevFolders) => [
+      ...prevFolders,
+      newFolder,
+    ]);
+
+    setFolderName("");
+    setShowFolderForm(false);
+  };
+
   return (
     <AppLayout>
       <div className='files-page'>
         <div className='files-header'>
-          <h1>Files</h1>
-          <Button>
-            Upload Files
+          <h1>My Folders</h1>
+
+          <Button
+            onClick={() =>
+              setShowFolderForm(!showFolderForm)
+            }
+          >
+            {showFolderForm ? "Cancel" : "New Folder"}
           </Button>
         </div>
+        {
+          showFolderForm && (
+            <div className="folder-form">
 
-        <div className='files-list'>
-          {files.map((file) => (
-            <FileCard
-              key={file.name}
-              fileName={file.name}
-              fileSize={file.size}
+              <Input
+                label="Folder Name"
+                placeholder="Enter folder name"
+                value={folderName}
+                onChange={(e) =>
+                  setFolderName(e.target.value)
+                }
+              />
+
+              <Button onClick={createFolder} className="crete-btn">
+                Create Folder
+              </Button>
+
+            </div>
+          )
+        }
+
+        <div className='folders-list'>
+          {folders.map((folder) => (
+            <FolderCard
+              key={folder.id}
+              folderId={folder.id}
+              folderName={folder.name}
+              fileCount={folder.fileCount}
             />
           ))}
-
         </div>
       </div>
     </AppLayout>

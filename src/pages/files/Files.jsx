@@ -7,11 +7,16 @@ import CreateFolderModal from "../../components/explorer/CreateFolderModel";
 import { useFolder } from "../../context/FolderContext";
 
 import "./Files.css";
+import ContextMenu from "../../components/explorer/ContextMenu";
 
 const Files = () => {
   const [showFolderForm, setShowFolderForm] = useState(false);
   const [folderName, setFolderName] = useState("");
-
+  const [selectedFolderId, setSelectedFolderId] = useState(null);
+  const [menuPosition, setMenuPosition] = useState({
+    x: 0,
+    y: 0,
+  });
   const { folders, createFolder } = useFolder();
 
   return (
@@ -58,10 +63,66 @@ const Files = () => {
                 folderId={folder.id}
                 folderName={folder.name}
                 fileCount={0}
+                onMenuClick={(id, button) => {
+
+                  const rect = button.getBoundingClientRect();
+
+                  const menuWidth = 180;
+                  const menuHeight = 140;
+
+                  let x = rect.right;
+                  let y = rect.bottom;
+
+                  // If menu would go outside the right edge,
+                  // show it on the left.
+                  if (x + menuWidth > window.innerWidth) {
+                    x = rect.left - menuWidth;
+                  }
+
+                  // If menu would go outside the bottom,
+                  // show it above the button.
+                  if (y + menuHeight > window.innerHeight) {
+                    y = rect.top - menuHeight;
+                  }
+
+                  setSelectedFolderId(id);
+
+                  setMenuPosition({
+                    x,
+                    y,
+                  });
+
+                }}
               />
             ))}
 
         </div>
+        <ContextMenu
+          isOpen={selectedFolderId !== null}
+          x={menuPosition.x}
+          y={menuPosition.y}
+          onClose={() => setSelectedFolderId(null)}
+          items={[
+            {
+              label: "Rename",
+              onClick: () => {
+                console.log("Rename Folder:", selectedFolderId);
+              },
+            },
+            {
+              label: "Delete",
+              onClick: () => {
+                console.log("Delete Folder:", selectedFolderId);
+              },
+            },
+            {
+              label: "Properties",
+              onClick: () => {
+                console.log("Properties:", selectedFolderId);
+              },
+            },
+          ]}
+        />
 
       </div>
     </AppLayout>

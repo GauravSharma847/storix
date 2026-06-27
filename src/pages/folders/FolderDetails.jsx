@@ -8,6 +8,9 @@ import FileCard from "../files/FileCard/FileCard";
 import FolderCard from "../files/FolderCard/FolderCard";
 
 import { useFolder } from "../../context/FolderContext";
+import Breadcrumb from "../../components/explorer/Breadcrumb";
+
+import "../../components/explorer/Breadcrumb.css";
 
 import "./FolderDetails.css";
 
@@ -42,15 +45,23 @@ const FolderDetails = () => {
 
             <div className="folder-details">
 
-                <Link
-                    to={
-                        folder?.parentFolderId
-                            ? `/folders/${folder.parentFolderId}`
-                            : "/files"
-                    }
-                >
-                    ← Back
-                </Link>
+                <div>
+
+                    <Breadcrumb
+                        currentFolderId={folderId}
+                    />
+
+                    <Link
+                        to={
+                            folder?.parentFolderId
+                                ? `/folders/${folder.parentFolderId}`
+                                : "/files"
+                        }
+                    >
+                        ← Up
+                    </Link>
+
+                </div>
 
                 <div className="folder-header">
 

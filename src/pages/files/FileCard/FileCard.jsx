@@ -17,4 +17,4 @@ const FileCard = (props) => {
     )
 }
 
-export default FileCard
+export default FileCard;

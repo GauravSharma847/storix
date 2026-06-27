@@ -15,7 +15,10 @@ function AppRoutes() {
       <Route path="/files" element={<Files />} />
       <Route path="/folders/:folderId"
         element={<FolderDetails />}
+
       />
+      {/* <Route path="/files" element={<Explorer />} /> */}
+      {/* <Route path="/folders/:folderId" element={<Explorer />} /> */}
     </Routes>
   );
 }

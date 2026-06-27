@@ -1,0 +1,33 @@
+.folder-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.back-link {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.folder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.folder-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.folder-content {
+  min-height: 300px;
+
+  background: white;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius);
+
+  padding: 2rem;
+}

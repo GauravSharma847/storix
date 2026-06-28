@@ -1,0 +1,37 @@
+.delete-message{
+
+    margin-top:1rem;
+
+    font-size:16px;
+
+}
+
+.delete-warning{
+
+    margin-top:0.5rem;
+
+    color:var(--danger-color);
+
+    font-size:14px;
+
+}
+
+.delete-folder-actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:1rem;
+
+    margin-top:2rem;
+
+}
+
+.delete-btn{
+
+    background:var(--danger-color);
+
+    color:white;
+
+}

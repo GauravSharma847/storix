@@ -35,9 +35,7 @@ const ContextMenu = ({
 
                     }}
                 >
-
                     {item.label}
-
                 </button>
 
             ))}

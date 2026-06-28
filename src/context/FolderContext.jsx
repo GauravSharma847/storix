@@ -37,6 +37,31 @@ export const FolderProvider = ({ children }) => {
         ]);
     };
 
+    const renameFolder = (folderId, newName) => {
+        if (!newName.trim()) return;
+
+        setFolders(prevFolders =>
+            prevFolders.map(folder =>
+                folder.id === folderId
+                    ? {
+                        ...folder,
+                        name: newName,
+                    }
+                    : folder
+            )
+        );
+    }
+
+    const deleteFolder = (folderId) => {
+
+        setFolders(prevFolders =>
+            prevFolders.filter(
+                folder => folder.id !== folderId
+            )
+        );
+
+    };
+
     // -------------------------
     // File Operations
     // -------------------------
@@ -72,6 +97,8 @@ export const FolderProvider = ({ children }) => {
                 files,
 
                 createFolder,
+                renameFolder,
+                deleteFolder,
                 uploadFile,
             }}
         >

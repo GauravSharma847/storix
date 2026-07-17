@@ -1,45 +1,83 @@
 .file-card {
-  display: flex;
 
-  justify-content: space-between;
+    display: flex;
 
-  align-items: center;
+    justify-content: space-between;
 
-  padding: 1rem;
+    align-items: center;
 
-  border: 1px solid var(--border-color);
+    padding: 16px;
 
-  border-radius: var(--radius);
+    background: white;
 
-  background-color: white;
+    border: 1px solid #e5e7eb;
+
+    border-radius: 10px;
+
+    margin-bottom: 12px;
+
+    transition: 0.2s;
+
 }
 
-.file-info {
-  display: flex;
+.file-card:hover {
 
-  flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 
-  gap: 0.25rem;
+}
+
+.file-main {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+}
+
+.file-icon {
+
+    font-size: 32px;
+
+}
+
+.file-info h3 {
+
+    margin: 0;
+
+    font-size: 16px;
+
 }
 
 .file-info p {
-  color: var(--text-secondary);
 
-  font-size: 14px;
+    margin: 4px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
 }
 
-.file-actions {
-  display: flex;
+.file-menu-btn {
 
-  gap: 0.5rem;
+    background: transparent;
+
+    border: none;
+
+    font-size: 22px;
+
+    cursor: pointer;
+
+    padding: 8px 10px;
+
+    border-radius: 6px;
+
 }
 
-.file-actions button {
-  padding: 8px 12px;
+.file-menu-btn:hover {
 
-  border: none;
+    background: #f3f4f6;
 
-  border-radius: var(--radius);
-
-  cursor: pointer;
 }

@@ -1,7 +1,7 @@
 import Modal from "../common/Modal/Modal";
 import Button from "../common/Button/Button";
 
-import "./DeleteFolderModal.css";
+import "./DeleteModal.css";
 
 const DeleteFolderModal = ({
     isOpen,

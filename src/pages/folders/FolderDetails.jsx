@@ -9,8 +9,8 @@ import FileCard from "../files/FileCard/FileCard";
 import FolderCard from "../files/FolderCard/FolderCard";
 
 import ContextMenu from "../../components/explorer/ContextMenu";
-import RenameFolderModal from "../../components/explorer/RenameFolderModal";
-import DeleteFolderModal from "../../components/explorer/DeleteFolderModal";
+import RenameFolderModal from "../../components/explorer/RenameModal";
+import DeleteFolderModal from "../../components/explorer/DeleteModal";
 
 import { useFolder } from "../../context/FolderContext";
 import Breadcrumb from "../../components/explorer/Breadcrumb";
@@ -36,7 +36,22 @@ const FolderDetails = () => {
     const [deleteFolderId, setDeleteFolderId] = useState(null);
     const [deleteFolderName, setDeleteFolderName] = useState("");
 
+    const [showRenameFileModal, setShowRenameFileModal] = useState(false);
+    const [renameFileId, setRenameFileId] = useState(null);
+    const [renameFileName, setRenameFileName] = useState("");
+
+    const [showDeleteFileModal, setShowDeleteFileModal] = useState(false);
+    const [deleteFileId, setDeleteFileId] = useState(null);
+    const [deleteFileName, setDeleteFileName] = useState("");
+
     const [menuPosition, setMenuPosition] = useState({
+        x: 0,
+        y: 0,
+    });
+
+    const [selectedFileId, setSelectedFileId] = useState(null);
+
+    const [fileMenuPosition, setFileMenuPosition] = useState({
         x: 0,
         y: 0,
     });
@@ -47,6 +62,8 @@ const FolderDetails = () => {
         createFolder,
         renameFolder,
         deleteFolder,
+        renameFile,
+        deleteFile,
         uploadFile,
     } = useFolder();
 
@@ -159,7 +176,8 @@ const FolderDetails = () => {
                     folderName={renameFolderName}
                     setFolderName={setRenameFolderName}
                     onRename={() => {
-
+                        console.log("renameFileId:", renameFileId);
+                        console.log("renameFileName:", renameFileName);
                         renameFolder(
                             renameFolderId,
                             renameFolderName.trim()
@@ -179,6 +197,35 @@ const FolderDetails = () => {
 
                         setShowRenameModal(false);
                         setSelectedFolderId(null);
+
+                    }}
+                />
+
+                <RenameFolderModal
+                    isOpen={showRenameFileModal}
+                    folderName={renameFileName}
+                    setFolderName={setRenameFileName}
+                    onRename={() => {
+
+                        renameFile(
+                            renameFileId,
+                            renameFileName.trim()
+                        );
+
+                        setRenameFileId(null);
+                        setRenameFileName("");
+
+                        setShowRenameFileModal(false);
+                        setSelectedFileId(null);
+
+                    }}
+                    onCancel={() => {
+
+                        setRenameFileId(null);
+                        setRenameFileName("");
+
+                        setShowRenameFileModal(false);
+                        setSelectedFileId(null);
 
                     }}
                 />
@@ -204,6 +251,31 @@ const FolderDetails = () => {
 
                         setShowDeleteModal(false);
                         setSelectedFolderId(null);
+
+                    }}
+                />
+
+                <DeleteFolderModal
+                    isOpen={showDeleteFileModal}
+                    folderName={deleteFileName}
+                    onDelete={() => {
+
+                        deleteFile(deleteFileId);
+
+                        setDeleteFileId(null);
+                        setDeleteFileName("");
+
+                        setShowDeleteFileModal(false);
+                        setSelectedFileId(null);
+
+                    }}
+                    onCancel={() => {
+
+                        setDeleteFileId(null);
+                        setDeleteFileName("");
+
+                        setShowDeleteFileModal(false);
+                        setSelectedFileId(null);
 
                     }}
                 />
@@ -258,8 +330,35 @@ const FolderDetails = () => {
 
                             <FileCard
                                 key={file.id}
+                                fileId={file.id}
                                 fileName={file.name}
                                 fileSize={file.size}
+                                onMenuClick={(id, button) => {
+
+                                    const rect = button.getBoundingClientRect();
+
+                                    const menuWidth = 180;
+                                    const menuHeight = 160;
+
+                                    let x = rect.right + 4;
+                                    let y = rect.bottom + 4;
+
+                                    if (x + menuWidth > window.innerWidth) {
+                                        x = rect.left - menuWidth - 4;
+                                    }
+
+                                    if (y + menuHeight > window.innerHeight) {
+                                        y = rect.top - menuHeight - 4;
+                                    }
+
+                                    setSelectedFileId(id);
+
+                                    setFileMenuPosition({
+                                        x,
+                                        y,
+                                    });
+
+                                }}
                             />
 
                         ))
@@ -311,6 +410,61 @@ const FolderDetails = () => {
 
                                     console.log(folder);
 
+                                },
+                            },
+                        ]}
+                    />
+
+                    <ContextMenu
+                        isOpen={selectedFileId !== null}
+                        x={fileMenuPosition.x}
+                        y={fileMenuPosition.y}
+                        onClose={() => setSelectedFileId(null)}
+                        items={[
+                            {
+                                label: "Rename",
+                                onClick: () => {
+
+                                    const file = files.find(
+                                        file => file.id === selectedFileId
+                                    );
+
+                                    if (!file) return;
+
+                                    setRenameFileId(file.id);
+                                    setRenameFileName(file.name);
+
+                                    setShowRenameFileModal(true);
+
+                                },
+                            },
+                            {
+                                label: "Download",
+                                onClick: () => {
+                                    console.log("Download File");
+                                },
+                            },
+                            {
+                                label: "Delete",
+                                onClick: () => {
+
+                                    const file = files.find(
+                                        file => file.id === selectedFileId
+                                    );
+
+                                    if (!file) return;
+
+                                    setDeleteFileId(file.id);
+                                    setDeleteFileName(file.name);
+
+                                    setShowDeleteFileModal(true);
+
+                                },
+                            },
+                            {
+                                label: "Properties",
+                                onClick: () => {
+                                    console.log("File Properties");
                                 },
                             },
                         ]}

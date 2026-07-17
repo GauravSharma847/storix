@@ -2,7 +2,7 @@ import Modal from "../common/Modal/Modal";
 import Input from "../common/Input/Input";
 import Button from "../common/Button/Button";
 
-import "./RenameFolderModal.css";
+import "./RenameModal.css";
 
 const RenameFolderModal = ({
     isOpen,

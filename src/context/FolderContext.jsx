@@ -89,6 +89,31 @@ export const FolderProvider = ({ children }) => {
         ]);
     };
 
+    const renameFile = (fileId, newName) => {
+
+        if (!newName.trim()) return;
+
+        setFiles(prevFiles =>
+            prevFiles.map(file =>
+                file.id === fileId
+                    ? {
+                        ...file,
+                        name: newName,
+                    }
+                    : file
+            )
+        );
+
+    };
+
+    const deleteFile = (fileId) => {
+        setFiles(prevFiles =>
+            prevFiles.filter(
+                file => file.id !== fileId
+            )
+        );
+    };
+
     return (
 
         <FolderContext.Provider
@@ -99,6 +124,9 @@ export const FolderProvider = ({ children }) => {
                 createFolder,
                 renameFolder,
                 deleteFolder,
+
+                renameFile,
+                deleteFile,
                 uploadFile,
             }}
         >

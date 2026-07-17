@@ -5,13 +5,13 @@ import Button from "../../components/common/Button/Button";
 import FolderCard from "./FolderCard/FolderCard";
 
 import CreateFolderModal from "../../components/explorer/CreateFolderModel";
-import RenameFolderModal from "../../components/explorer/RenameFolderModal";
+import RenameFolderModal from "../../components/explorer/RenameModal";
 import ContextMenu from "../../components/explorer/ContextMenu";
 
 import { useFolder } from "../../context/FolderContext";
 
 import "./Files.css";
-import DeleteFolderModal from "../../components/explorer/DeleteFolderModal";
+import DeleteFolderModal from "../../components/explorer/DeleteModal";
 
 const Files = () => {
 

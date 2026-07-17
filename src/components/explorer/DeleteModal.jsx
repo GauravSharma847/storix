@@ -8,16 +8,18 @@ const DeleteFolderModal = ({
     folderName,
     onDelete,
     onCancel,
+    title = "Delete Folder",
+    itemLabel = "folder",
 }) => {
 
     return (
 
         <Modal isOpen={isOpen}>
 
-            <h2>Delete Folder</h2>
+            <h2>{title}</h2>
 
             <p className="delete-message">
-                Are you sure you want to delete
+                Are you sure you want to delete this {itemLabel}
                 <strong> "{folderName}" </strong>?
             </p>
 
@@ -28,13 +30,13 @@ const DeleteFolderModal = ({
             <div className="delete-folder-actions">
 
                 <Button
-                    className="delete-btn"
+                    variant="danger"
                     onClick={onDelete}
                 >
                     Delete
                 </Button>
 
-                <Button onClick={onCancel}>
+                <Button variant="secondary" onClick={onCancel}>
                     Cancel
                 </Button>
 

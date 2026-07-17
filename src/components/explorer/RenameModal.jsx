@@ -10,16 +10,18 @@ const RenameFolderModal = ({
     setFolderName,
     onRename,
     onCancel,
+    title = "Rename Folder",
+    label = "Folder Name",
 }) => {
 
     return (
 
         <Modal isOpen={isOpen}>
 
-            <h2>Rename Folder</h2>
+            <h2>{title}</h2>
 
             <Input
-                label="Folder Name"
+                label={label}
                 value={folderName}
                 onChange={(e) =>
                     setFolderName(e.target.value)
@@ -35,7 +37,7 @@ const RenameFolderModal = ({
                     Rename
                 </Button>
 
-                <Button onClick={onCancel}>
+                <Button variant="secondary" onClick={onCancel}>
                     Cancel
                 </Button>
 

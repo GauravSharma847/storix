@@ -55,3 +55,29 @@
 
   border-radius: var(--radius);
 }
+
+.storage-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.storage-heading h2 { margin: 0; }
+
+.storage-bar {
+  height: 10px;
+  margin-top: 1rem;
+  overflow: hidden;
+  background: var(--border-color);
+  border-radius: 999px;
+}
+
+.storage-bar-used {
+  height: 100%;
+  background: var(--primary-color);
+  border-radius: inherit;
+  transition: width 0.2s ease;
+}
+
+@media (max-width: 520px) { .dashboard { gap: 1.25rem; } .stats-grid { grid-template-columns: 1fr; } .stat-card p { font-size: 1.75rem; } .storage-heading { align-items: flex-start; flex-direction: column; } }

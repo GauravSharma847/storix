@@ -1,19 +1,20 @@
-import React from 'react'
 import "./Input.css"
 
-const Input = (props) => {
+const Input = ({ label, error, id, type = "text", ...props }) => {
     return (
         <div className='input-group'>
-            <label>
-                {props.label}
+            <label htmlFor={id}>
+                {label}
             </label>
 
             <input
-                type={props.type || "text"}
-                placeholder={props.placeholder}
-                value={props.value}
-                onChange={props.onChange}
+                id={id}
+                type={type}
+                aria-invalid={Boolean(error)}
+                aria-describedby={error ? `${id}-error` : undefined}
+                {...props}
             />
+            {error && <span id={`${id}-error`} className="input-error">{error}</span>}
         </div>
     )
 }

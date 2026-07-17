@@ -33,7 +33,7 @@ const CreateFolderModal = ({
                     Create
                 </Button>
 
-                <Button onClick={onCancel}>
+                <Button variant="secondary" onClick={onCancel}>
                     Cancel
                 </Button>
 

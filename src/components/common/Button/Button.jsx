@@ -1,14 +1,13 @@
-import React from 'react'
 import "./Button.css"
 
-const Button = (props) => {
+const Button = ({ className = "", type = "button", variant = "primary", children, ...props }) => {
     return (
         <button
-            className={`btn ${props.className || ""}`}
-            type={props.type || "button"}
-            onClick={props.onClick}
+            className={`btn btn--${variant} ${className}`}
+            type={type}
+            {...props}
         >
-            {props.children}
+            {children}
         </button>
     );
 };

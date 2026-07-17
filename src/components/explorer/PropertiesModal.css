@@ -1,47 +1,19 @@
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: rgba(0, 0, 0, 0.4);
-
-    z-index: 1000;
-}
-
-.modal {
-    width: 400px;
-    max-width: 90%;
-
-    background: white;
-
-    border-radius: 8px;
-
-    padding: 20px;
-
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-}
-
-.modal h2 {
-    margin-bottom: 20px;
-}
-
-.properties-list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-
-    margin-bottom: 20px;
-}
-
-.properties-list p {
-    margin: 0;
-    font-size: 15px;
-}
-
-.properties-list strong {
-    display: inline-block;
-    width: 90px;
-}
+.modal-overlay { position: fixed; inset: 0; display: grid; place-items: center; padding: 1rem; background: rgba(15, 23, 42, 0.48); z-index: 1000; }
+.properties-modal { width: min(460px, 100%); overflow: hidden; background: white; border-radius: 1rem; box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28); }
+.properties-header { display: flex; align-items: center; gap: 0.75rem; padding: 1.4rem 1.4rem 1rem; border-bottom: 1px solid var(--border-color); }
+.properties-header p { margin: 0 0 0.2rem; color: var(--text-secondary); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; }
+.properties-header h2 { margin: 0; font-size: 1.15rem; }
+.properties-icon, .property-name > span { display: grid; place-items: center; background: #eff6ff; border-radius: 0.75rem; }
+.properties-icon { width: 2.5rem; height: 2.5rem; font-size: 1.3rem; }
+.properties-close { margin-left: auto; width: 2rem; height: 2rem; border: 0; color: var(--text-secondary); background: transparent; border-radius: 0.5rem; font-size: 1.4rem; cursor: pointer; }
+.properties-close:hover { color: var(--text-primary); background: #f1f5f9; }
+.property-name { display: flex; align-items: center; gap: 0.7rem; margin: 1.25rem 1.4rem; padding: 0.85rem; background: #f8fafc; border-radius: 0.7rem; }
+.property-name > span { width: 2.1rem; height: 2.1rem; }
+.property-name strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.properties-list { margin: 0 1.4rem; border: 1px solid var(--border-color); border-radius: 0.7rem; overflow: hidden; }
+.property-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.75rem 0.9rem; border-bottom: 1px solid var(--border-color); font-size: 0.9rem; }
+.property-row:last-child { border-bottom: 0; }
+.property-row span { color: var(--text-secondary); }
+.property-row strong { max-width: 60%; overflow: hidden; text-align: right; text-overflow: ellipsis; white-space: nowrap; }
+.properties-modal footer { display: flex; justify-content: flex-end; padding: 1.25rem 1.4rem; }
+@media (max-width: 480px) { .modal-overlay { align-items: end; padding: 0; } .properties-modal { border-radius: 1rem 1rem 0 0; } .properties-header, .property-name, .properties-list, .properties-modal footer { margin-left: 1rem; margin-right: 1rem; } .properties-header { padding-left: 0; padding-right: 0; } .properties-modal footer { padding-left: 0; padding-right: 0; } .properties-modal footer .btn { width: 100%; } .property-row { align-items: flex-start; flex-direction: column; gap: 0.2rem; } .property-row strong { max-width: 100%; text-align: left; } }

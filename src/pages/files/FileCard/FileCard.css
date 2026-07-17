@@ -58,6 +58,14 @@
 
     font-size: 14px;
 
+    max-width: 520px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
 }
 
 .file-menu-btn {
@@ -81,3 +89,5 @@
     background: #f3f4f6;
 
 }
+
+@media (max-width: 480px) { .file-card { padding: 0.8rem; } .file-main { min-width: 0; gap: 0.75rem; } .file-icon { font-size: 1.6rem; } .file-info { min-width: 0; } .file-info h3 { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .file-info p { max-width: 190px; font-size: 0.75rem; } }

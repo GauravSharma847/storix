@@ -1,302 +1,85 @@
 import { useState } from "react";
-
 import AppLayout from "../../layouts/AppLayout";
 import Button from "../../components/common/Button/Button";
-import FolderCard from "./FolderCard/FolderCard";
-
 import CreateFolderModal from "../../components/explorer/CreateFolderModel";
-import RenameFolderModal from "../../components/explorer/RenameModal";
-import ContextMenu from "../../components/explorer/ContextMenu";
-
-import { useFolder } from "../../context/FolderContext";
-
-import "./Files.css";
-import DeleteFolderModal from "../../components/explorer/DeleteModal";
+import RenameModal from "../../components/explorer/RenameModal";
+import DeleteModal from "../../components/explorer/DeleteModal";
 import PropertiesModal from "../../components/explorer/PropertiesModal";
+import ContextMenu from "../../components/explorer/ContextMenu";
+import { FolderList } from "../../components/explorer/ExplorerLists";
+import "../../components/explorer/Explorer.css";
+import "./Files.css";
+import { useFolder } from "../../context/FolderContext";
+import { useContextMenu } from "../../hooks/useContextMenu";
+import { useItemModal } from "../../hooks/useItemModal";
+import { FOLDER_MENU_HEIGHT, MENU_WIDTH } from "../../utils/constants";
+
+const sameId = (first, second) => String(first) === String(second);
 
 const Files = () => {
-
-  const [showFolderForm, setShowFolderForm] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [folderName, setFolderName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const menu = useContextMenu();
+  const rename = useItemModal();
+  const remove = useItemModal();
+  const properties = useItemModal();
+  const { folders, files, createFolder, renameFolder, deleteFolder } = useFolder();
+  const rootFolders = folders.filter(folder => folder.parentFolderId === null);
+  const visibleFolders = rootFolders.filter(folder => folder.name.toLowerCase().includes(searchQuery.trim().toLowerCase()));
+  const totalChildFolders = folders.filter(folder => folder.parentFolderId !== null).length;
 
-  const [selectedFolderId, setSelectedFolderId] = useState(null);
-
-  const [showRenameModal, setShowRenameModal] = useState(false);
-  const [renameFolderName, setRenameFolderName] = useState("");
-  const [renameFolderId, setRenameFolderId] = useState(null);
-
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteFolderId, setDeleteFolderId] = useState(null);
-  const [deleteFolderName, setDeleteFolderName] = useState("");
-
-  const [menuPosition, setMenuPosition] = useState({
-    x: 0,
-    y: 0,
-  });
-
-  const [showPropertiesModal, setShowPropertiesModal] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [propertiesTitle, setPropertiesTitle] = useState("");
-
-  const {
-    folders,
-    createFolder,
-    renameFolder,
-    deleteFolder,
-  } = useFolder();
+  const selectedFolder = folders.find(folder => sameId(folder.id, menu.selectedId));
+  const menuItems = [
+    { label: "✏️ Rename", onClick: () => rename.openModal(selectedFolder) },
+    { label: "🗑️ Delete", onClick: () => remove.openModal(selectedFolder) },
+    { label: "📋 Properties", onClick: () => properties.openModal(selectedFolder) },
+  ];
 
   return (
     <AppLayout>
-
       <div className="files-page">
-
-        <div className="files-header">
-
-          <h1>My Folders</h1>
-
-          <Button
-            onClick={() =>
-              setShowFolderForm(!showFolderForm)
-            }
-          >
-            {showFolderForm
-              ? "Cancel"
-              : "New Folder"}
-          </Button>
-
-        </div>
-
-        <CreateFolderModal
-          isOpen={showFolderForm}
-          folderName={folderName}
-          setFolderName={setFolderName}
-          onCreate={() => {
-
-            createFolder(folderName);
-
-            setFolderName("");
-            setShowFolderForm(false);
-
-          }}
-          onCancel={() => {
-
-            setFolderName("");
-            setShowFolderForm(false);
-
-          }}
-        />
-
-        <RenameFolderModal
-          isOpen={showRenameModal}
-          folderName={renameFolderName}
-          setFolderName={setRenameFolderName}
-          onRename={() => {
-
-            renameFolder(
-              renameFolderId,
-              renameFolderName.trim()
-            );
-
-            setRenameFolderId(null);
-            setRenameFolderName("");
-
-            setShowRenameModal(false);
-            setSelectedFolderId(null);
-
-          }}
-          onCancel={() => {
-
-            setRenameFolderId(null);
-            setRenameFolderName("");
-
-            setShowRenameModal(false);
-            setSelectedFolderId(null);
-
-          }}
-        />
-
-        <DeleteFolderModal
-          isOpen={showDeleteModal}
-          folderName={deleteFolderName}
-          onDelete={() => {
-
-            deleteFolder(deleteFolderId);
-
-            setDeleteFolderId(null);
-            setDeleteFolderName("");
-
-            setShowDeleteModal(false);
-            setSelectedFolderId(null);
-
-          }}
-          onCancel={() => {
-
-            setDeleteFolderId(null);
-            setDeleteFolderName("");
-
-            setShowDeleteModal(false);
-            setSelectedFolderId(null);
-
-          }}
-        />
-
-        <PropertiesModal
-          isOpen={showPropertiesModal}
-          title={propertiesTitle}
-          onClose={() => {
-
-            setShowPropertiesModal(false);
-            setSelectedItem(null);
-            setPropertiesTitle("");
-
-          }}
-        >
-
-          {selectedItem && (
-
-            <>
-              <p><strong>Name:</strong> {selectedItem.name}</p>
-
-              <p><strong>ID:</strong> {selectedItem.id}</p>
-
-              <p>
-                <strong>Folders:</strong>{" "}
-                {
-                  folders.filter(
-                    folder => folder.parentFolderId === selectedItem.id
-                  ).length
-                }
-              </p>
-
-              <p>
-                <strong>Created:</strong>{" "}
-                {selectedItem.createdAt || "Not Available"}
-              </p>
-            </>
-
-          )}
-
-        </PropertiesModal>
-
-        <div className="folders-list">
-
-          {folders
-            .filter(
-              folder =>
-                folder.parentFolderId === null
-            )
-            .map(folder => (
-
-              <FolderCard
-                key={folder.id}
-                folderId={folder.id}
-                folderName={folder.name}
-                fileCount={0}
-                onMenuClick={(id, button) => {
-
-                  const rect =
-                    button.getBoundingClientRect();
-
-                  const menuWidth = 180;
-                  const menuHeight = 140;
-
-                  let x = rect.right + 4;
-                  let y = rect.bottom + 4;
-
-                  if (
-                    x + menuWidth >
-                    window.innerWidth
-                  ) {
-                    x = rect.left - menuWidth - 4;
-                  }
-
-                  if (
-                    y + menuHeight >
-                    window.innerHeight
-                  ) {
-                    y = rect.top - menuHeight - 4;
-                  }
-
-                  setSelectedFolderId(id);
-
-                  setMenuPosition({
-                    x,
-                    y,
-                  });
-
-                }}
-              />
-
-            ))}
-
-        </div>
-
-        <ContextMenu
-          isOpen={selectedFolderId !== null}
-          x={menuPosition.x}
-          y={menuPosition.y}
-          onClose={() =>
-            setSelectedFolderId(null)
-          }
-          items={[
-            {
-              label: "Rename",
-              onClick: () => {
-
-                const folder =
-                  folders.find(
-                    folder =>
-                      folder.id ===
-                      selectedFolderId
-                  );
-
-                if (!folder) return;
-
-                setRenameFolderId(folder.id);
-                setRenameFolderName(folder.name);
-
-                setShowRenameModal(true);
-
-              },
-            },
-            {
-              label: "Delete",
-              onClick: () => {
-
-                const folder = folders.find(
-                  folder => folder.id === selectedFolderId
-                );
-
-                if (!folder) return;
-
-                setDeleteFolderId(folder.id);
-                setDeleteFolderName(folder.name);
-
-                setShowDeleteModal(true);
-
-              },
-            },
-            {
-              label: "Properties",
-              onClick: () => {
-
-                const folder = folders.find(
-                  folder => folder.id === selectedFolderId
-                );
-
-                if (!folder) return;
-
-                setSelectedItem(folder);
-                setPropertiesTitle("Folder Properties");
-                setShowPropertiesModal(true);
-
-              },
-            },
-          ]}
-        />
-
+        <header className="files-hero">
+          <div>
+            <p className="eyebrow">YOUR STORAGE</p>
+            <h1>📂 My Folders</h1>
+            <p>Keep your work, personal files, and uploads organised in one place.</p>
+          </div>
+          <Button onClick={() => setIsCreateOpen(true)}>＋ New Folder</Button>
+        </header>
+
+        <section className="files-summary" aria-label="Folder summary">
+          <div><span>📁</span><strong>{rootFolders.length}</strong><small>Top-level folders</small></div>
+          <div><span>🗂️</span><strong>{totalChildFolders}</strong><small>Nested folders</small></div>
+          <div><span>📄</span><strong>{files.length}</strong><small>Total files</small></div>
+        </section>
+
+        <section className="files-section">
+          <div className="section-title"><h2>Folders</h2><span>{rootFolders.length} items</span></div>
+          <label className="files-search">
+            <span aria-hidden="true">🔎</span>
+            <input value={searchQuery} onChange={event => setSearchQuery(event.target.value)} placeholder="Search folders" aria-label="Search folders" />
+            {searchQuery && <button type="button" onClick={() => setSearchQuery("")} aria-label="Clear search">×</button>}
+          </label>
+          <div className="folders-list">
+            <FolderList
+              folders={visibleFolders}
+              allFolders={folders}
+              files={files}
+              onMenuClick={(id, button) => menu.openMenu(id, button, MENU_WIDTH, FOLDER_MENU_HEIGHT)}
+              emptyAction={<Button onClick={() => setIsCreateOpen(true)}>Create your first folder</Button>}
+              emptyTitle={searchQuery ? "No matching folders" : undefined}
+              emptyDescription={searchQuery ? `No folder matches “${searchQuery}”.` : undefined}
+            />
+          </div>
+        </section>
       </div>
 
+      <CreateFolderModal isOpen={isCreateOpen} folderName={folderName} setFolderName={setFolderName} onCreate={() => { createFolder(folderName); setFolderName(""); setIsCreateOpen(false); }} onCancel={() => { setFolderName(""); setIsCreateOpen(false); }} />
+      <RenameModal isOpen={rename.isOpen} folderName={rename.value} setFolderName={rename.setValue} onRename={() => { renameFolder(rename.item.id, rename.value.trim()); rename.closeModal(); }} onCancel={rename.closeModal} />
+      <DeleteModal isOpen={remove.isOpen} folderName={remove.item?.name} onDelete={() => { deleteFolder(remove.item.id); remove.closeModal(); }} onCancel={remove.closeModal} />
+      <PropertiesModal isOpen={properties.isOpen} title="Folder Properties" onClose={properties.closeModal} item={properties.item} folderCount={folders.filter(folder => sameId(folder.parentFolderId, properties.item?.id)).length} fileCount={files.filter(file => sameId(file.folderId, properties.item?.id)).length} />
+      <ContextMenu isOpen={menu.selectedId !== null} {...menu.position} onClose={menu.closeMenu} items={menuItems} />
     </AppLayout>
   );
 };

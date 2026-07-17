@@ -23,12 +23,15 @@ export const FolderProvider = ({ children }) => {
         parentFolderId = null
     ) => {
 
-        if (!name.trim()) return;
+        const trimmedName = name.trim();
+
+        if (!trimmedName) return;
 
         const newFolder = {
-            id: Date.now(),
-            name,
+            id: crypto.randomUUID(),
+            name: trimmedName,
             parentFolderId,
+            createdAt: new Date().toLocaleString(),
         };
 
         setFolders(prev => [
@@ -53,10 +56,32 @@ export const FolderProvider = ({ children }) => {
     }
 
     const deleteFolder = (folderId) => {
+        const folderIdsToDelete = new Set([String(folderId)]);
+        let foundChild = true;
+
+        while (foundChild) {
+            foundChild = false;
+
+            folders.forEach(folder => {
+                if (
+                    folderIdsToDelete.has(String(folder.parentFolderId)) &&
+                    !folderIdsToDelete.has(String(folder.id))
+                ) {
+                    folderIdsToDelete.add(String(folder.id));
+                    foundChild = true;
+                }
+            });
+        }
 
         setFolders(prevFolders =>
             prevFolders.filter(
-                folder => folder.id !== folderId
+                folder => !folderIdsToDelete.has(String(folder.id))
+            )
+        );
+
+        setFiles(prevFiles =>
+            prevFiles.filter(
+                file => !folderIdsToDelete.has(String(file.folderId))
             )
         );
 
@@ -74,7 +99,7 @@ export const FolderProvider = ({ children }) => {
         if (!selectedFile) return;
 
         const newFile = {
-            id: Date.now(),
+            id: crypto.randomUUID(),
             folderId,
             name: selectedFile.name,
             size: `${(selectedFile.size / 1024).toFixed(2)} KB`,
@@ -161,5 +186,7 @@ export const FolderProvider = ({ children }) => {
     );
 };
 
+// This hook is intentionally colocated with its provider.
+// eslint-disable-next-line react-refresh/only-export-components
 export const useFolder = () =>
     useContext(FolderContext);

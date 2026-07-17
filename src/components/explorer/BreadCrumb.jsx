@@ -8,7 +8,7 @@ const Breadcrumb = ({ currentFolderId }) => {
     const breadcrumb = [];
 
     let currentFolder = folders.find(
-        folder => folder.id === Number(currentFolderId)
+        folder => String(folder.id) === String(currentFolderId)
     );
 
     while (currentFolder) {
@@ -16,7 +16,7 @@ const Breadcrumb = ({ currentFolderId }) => {
         breadcrumb.unshift(currentFolder);
 
         currentFolder = folders.find(
-            folder => folder.id === currentFolder.parentFolderId
+            folder => String(folder.id) === String(currentFolder.parentFolderId)
         );
     }
 

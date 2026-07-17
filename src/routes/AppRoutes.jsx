@@ -5,12 +5,14 @@ import Register from "../pages/auth/Register";
 import Dashboard from "../pages/dashboard/DashBoard";
 import Files from "../pages/files/Files";
 import FolderDetails from "../pages/folders/FolderDetails";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/files" element={<Files />} />
       <Route path="/folders/:folderId"

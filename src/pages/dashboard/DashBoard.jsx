@@ -1,33 +1,40 @@
-import React from 'react'
 import AppLayout from '../../layouts/AppLayout';
 import Card from '../../components/common/Card/Card';
+import { useFolder } from '../../context/FolderContext';
+import { formatBytes, getFileSizeInBytes } from '../../utils/formatBytes';
+import { STORAGE_LIMIT_BYTES } from '../../utils/constants';
 import "./Dashboard.css"
 
 const Dashboard = () => {
+  const { files } = useFolder();
+
+  const storageUsedInBytes = files.reduce((total, file) => total + getFileSizeInBytes(file.size), 0);
+  const storagePercent = Math.min((storageUsedInBytes / STORAGE_LIMIT_BYTES) * 100, 100);
+
   const stats = [
     {
       title: "Total Files",
-      value: 42,
+      value: files.length,
     },
     {
       title: "Storage Used",
-      value: "1.2 GB",
+      value: formatBytes(storageUsedInBytes),
     },
     {
       title: "Images",
-      value: 12,
+      value: files.filter(file => file.type === "image" || file.type?.startsWith("image/")).length,
     },
     {
       title: "Documents",
-      value: 18,
+      value: files.filter(file =>
+        file.type === "pdf" ||
+        file.type === "document" ||
+        file.type?.includes("document") ||
+        file.type?.includes("pdf")
+      ).length,
     },
   ];
-  const recentFiles = [
-    "resume.pdf",
-    "photo.jpg",
-    "project.zip",
-    "notes.docx",
-  ];
+  const recentFiles = files.slice(-4).reverse();
   return (
     <AppLayout>
       <div className="dashboard">
@@ -49,15 +56,24 @@ const Dashboard = () => {
           ))}
         </div>
         <Card>
+          <div className="storage-heading">
+            <h2>Storage</h2>
+            <span>{formatBytes(storageUsedInBytes)} / {formatBytes(STORAGE_LIMIT_BYTES)}</span>
+          </div>
+          <div className="storage-bar" aria-label={`${storagePercent.toFixed(1)}% storage used`}>
+            <div className="storage-bar-used" style={{ width: `${storagePercent}%` }} />
+          </div>
+        </Card>
+        <Card>
           <h2>Recent Uploads</h2>
 
           <div className="recent-files">
             {recentFiles.map((file) => (
               <div
-                key={file}
+                key={file.id}
                 className="recent-file"
               >
-                {file}
+                {file.name}
               </div>
             ))}
           </div>

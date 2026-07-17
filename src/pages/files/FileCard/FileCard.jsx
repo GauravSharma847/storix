@@ -1,50 +1,23 @@
-import React from 'react'
-import "./FileCard.css"
-import Button from '../../../components/common/Button/Button'
+import "./FileCard.css";
+import { getFileIcon } from "../../../utils/getFileIcon";
 
-const FileCard = (props) => {
-    return (
-        <div className="file-card">
+const FileCard = ({ file, onMenuClick }) => (
+  <div className="file-card">
+    <div className="file-main">
+      <div className="file-icon">{getFileIcon(file)}</div>
+      <div className="file-info">
+        <h3>{file.name}</h3>
+        <p>{file.size} · {file.type || "File"} · {file.createdAt || "Sample file"}</p>
+      </div>
+    </div>
+    <button
+      className="file-menu-btn"
+      aria-label={`Actions for ${file.name}`}
+      onClick={event => onMenuClick?.(file.id, event.currentTarget)}
+    >
+      ⋮
+    </button>
+  </div>
+);
 
-            <div className="file-main">
-
-                <div className="file-icon">
-                    📄
-                </div>
-
-                <div className="file-info">
-
-                    <h3>{props.fileName}</h3>
-
-                    <p>{props.fileSize}</p>
-
-                </div>
-
-            </div>
-
-            <button
-                className="file-menu-btn"
-                onClick={(e) => {
-
-                    e.stopPropagation();
-
-                    console.log("File menu clicked");
-
-                    if (props.onMenuClick) {
-
-                        props.onMenuClick(
-                            props.fileId,
-                            e.currentTarget
-                        );
-
-                    }
-
-                }}
-            >
-                ⋮
-            </button>
-
-        </div>
-    )
-}
 export default FileCard;

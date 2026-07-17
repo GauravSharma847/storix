@@ -21,3 +21,9 @@ a {
 button {
   cursor: pointer;
 }
+
+img, svg { max-width: 100%; }
+
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+}

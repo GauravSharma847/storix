@@ -72,3 +72,5 @@
     background: #f1f5f9;
 
 }
+
+@media (max-width: 480px) { .folder-card { padding: 0.8rem; } .folder-icon { font-size: 1.65rem; } .folder-info h3 { font-size: 0.95rem; } .folder-info p { font-size: 0.78rem; } }

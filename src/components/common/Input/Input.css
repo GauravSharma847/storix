@@ -25,3 +25,6 @@
 
   border-color: var(--primary-color);
 }
+
+.input-group input[aria-invalid="true"] { border-color: var(--danger-color); }
+.input-error { color: var(--danger-color); font-size: 0.78rem; }

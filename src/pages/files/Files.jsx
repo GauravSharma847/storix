@@ -12,6 +12,7 @@ import { useFolder } from "../../context/FolderContext";
 
 import "./Files.css";
 import DeleteFolderModal from "../../components/explorer/DeleteModal";
+import PropertiesModal from "../../components/explorer/PropertiesModal";
 
 const Files = () => {
 
@@ -32,6 +33,10 @@ const Files = () => {
     x: 0,
     y: 0,
   });
+
+  const [showPropertiesModal, setShowPropertiesModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [propertiesTitle, setPropertiesTitle] = useState("");
 
   const {
     folders,
@@ -135,6 +140,44 @@ const Files = () => {
           }}
         />
 
+        <PropertiesModal
+          isOpen={showPropertiesModal}
+          title={propertiesTitle}
+          onClose={() => {
+
+            setShowPropertiesModal(false);
+            setSelectedItem(null);
+            setPropertiesTitle("");
+
+          }}
+        >
+
+          {selectedItem && (
+
+            <>
+              <p><strong>Name:</strong> {selectedItem.name}</p>
+
+              <p><strong>ID:</strong> {selectedItem.id}</p>
+
+              <p>
+                <strong>Folders:</strong>{" "}
+                {
+                  folders.filter(
+                    folder => folder.parentFolderId === selectedItem.id
+                  ).length
+                }
+              </p>
+
+              <p>
+                <strong>Created:</strong>{" "}
+                {selectedItem.createdAt || "Not Available"}
+              </p>
+            </>
+
+          )}
+
+        </PropertiesModal>
+
         <div className="folders-list">
 
           {folders
@@ -236,10 +279,17 @@ const Files = () => {
             {
               label: "Properties",
               onClick: () => {
-                console.log(
-                  "Properties:",
-                  selectedFolderId
+
+                const folder = folders.find(
+                  folder => folder.id === selectedFolderId
                 );
+
+                if (!folder) return;
+
+                setSelectedItem(folder);
+                setPropertiesTitle("Folder Properties");
+                setShowPropertiesModal(true);
+
               },
             },
           ]}

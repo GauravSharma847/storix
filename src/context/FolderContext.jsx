@@ -77,10 +77,10 @@ export const FolderProvider = ({ children }) => {
             id: Date.now(),
             folderId,
             name: selectedFile.name,
-            size: `${(
-                selectedFile.size / 1024
-            ).toFixed(2)} KB`,
+            size: `${(selectedFile.size / 1024).toFixed(2)} KB`,
             type: selectedFile.type,
+            file: selectedFile,
+            createdAt: new Date().toLocaleString(),
         };
 
         setFiles(prev => [
@@ -114,6 +114,30 @@ export const FolderProvider = ({ children }) => {
         );
     };
 
+    const downloadFile = (fileId) => {
+
+        const file = files.find(
+            file => file.id === fileId
+        );
+
+        if (!file || !file.file) return;
+
+        const url = URL.createObjectURL(file.file);
+
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = file.name;
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        document.body.removeChild(link);
+
+        URL.revokeObjectURL(url);
+
+    };
     return (
 
         <FolderContext.Provider
@@ -127,6 +151,7 @@ export const FolderProvider = ({ children }) => {
 
                 renameFile,
                 deleteFile,
+                downloadFile,
                 uploadFile,
             }}
         >

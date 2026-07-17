@@ -1,0 +1,47 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, 0.4);
+
+    z-index: 1000;
+}
+
+.modal {
+    width: 400px;
+    max-width: 90%;
+
+    background: white;
+
+    border-radius: 8px;
+
+    padding: 20px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal h2 {
+    margin-bottom: 20px;
+}
+
+.properties-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.properties-list p {
+    margin: 0;
+    font-size: 15px;
+}
+
+.properties-list strong {
+    display: inline-block;
+    width: 90px;
+}

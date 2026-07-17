@@ -18,6 +18,7 @@ import Breadcrumb from "../../components/explorer/Breadcrumb";
 import "../../components/explorer/Breadcrumb.css";
 
 import "./FolderDetails.css";
+import PropertiesModal from "../../components/explorer/PropertiesModal";
 
 const FolderDetails = () => {
 
@@ -56,6 +57,10 @@ const FolderDetails = () => {
         y: 0,
     });
 
+    const [showPropertiesModal, setShowPropertiesModal] = useState(false);
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [propertiesTitle, setPropertiesTitle] = useState("");
+
     const {
         folders,
         files,
@@ -64,6 +69,7 @@ const FolderDetails = () => {
         deleteFolder,
         renameFile,
         deleteFile,
+        downloadFile,
         uploadFile,
     } = useFolder();
 
@@ -280,6 +286,59 @@ const FolderDetails = () => {
                     }}
                 />
 
+                <PropertiesModal
+                    isOpen={showPropertiesModal}
+                    title={propertiesTitle}
+                    onClose={() => {
+
+                        setShowPropertiesModal(false);
+                        setSelectedItem(null);
+                        setPropertiesTitle("");
+
+                    }}
+                >
+
+                    {selectedItem && (
+                        <>
+                            <p><strong>Name:</strong> {selectedItem.name}</p>
+
+                            <p><strong>ID:</strong> {selectedItem.id}</p>
+
+                            {"type" in selectedItem ? (
+                                <>
+                                    <p><strong>Type:</strong> {selectedItem.type}</p>
+                                    <p><strong>Size:</strong> {selectedItem.size}</p>
+                                </>
+                            ) : (
+                                <>
+                                    <p>
+                                        <strong>Folders:</strong>{" "}
+                                        {
+                                            folders.filter(
+                                                folder => folder.parentFolderId === selectedItem.id
+                                            ).length
+                                        }
+                                    </p>
+
+                                    <p>
+                                        <strong>Files:</strong>{" "}
+                                        {
+                                            files.filter(
+                                                file => file.folderId === selectedItem.id
+                                            ).length
+                                        }
+                                    </p>
+                                </>
+                            )}
+
+                            {selectedItem.createdAt && (
+                                <p><strong>Created:</strong> {selectedItem.createdAt}</p>
+                            )}
+                        </>
+                    )}
+
+                </PropertiesModal>
+
                 <div className="folder-content">
 
                     {childFolders.map(child => (
@@ -408,7 +467,15 @@ const FolderDetails = () => {
                                 label: "Properties",
                                 onClick: () => {
 
-                                    console.log(folder);
+                                    const folder = folders.find(
+                                        folder => folder.id === selectedFolderId
+                                    );
+
+                                    if (!folder) return;
+
+                                    setSelectedItem(folder);
+                                    setPropertiesTitle("Folder Properties");
+                                    setShowPropertiesModal(true);
 
                                 },
                             },
@@ -441,7 +508,8 @@ const FolderDetails = () => {
                             {
                                 label: "Download",
                                 onClick: () => {
-                                    console.log("Download File");
+                                    downloadFile(selectedFileId);
+                                    setSelectedFileId(null);
                                 },
                             },
                             {
@@ -464,7 +532,17 @@ const FolderDetails = () => {
                             {
                                 label: "Properties",
                                 onClick: () => {
-                                    console.log("File Properties");
+
+                                    const file = files.find(
+                                        file => file.id === selectedFileId
+                                    );
+
+                                    if (!file) return;
+
+                                    setSelectedItem(file);
+                                    setPropertiesTitle("File Properties");
+                                    setShowPropertiesModal(true);
+
                                 },
                             },
                         ]}

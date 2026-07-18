@@ -1,5 +1,57 @@
+#################################################
+# Storix - Full Stack .gitignore
+# React + Vite + ASP.NET Core + PostgreSQL
+#################################################
+
+############################
+# Frontend (React + Vite)
+############################
+
+StorixApp/node_modules/
+StorixApp/dist/
+StorixApp/dist-ssr/
+StorixApp/.vite/
+StorixApp/.cache/
+
+############################
+# Backend (.NET)
+############################
+
+StorixBackend/bin/
+StorixBackend/obj/
+StorixBackend/.vs/
+
+############################
+# Visual Studio
+############################
+
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# VS Code
+############################
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+############################
+# JetBrains Rider
+############################
+
+.idea/
+
+############################
 # Logs
-logs
+############################
+
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,18 +59,68 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+############################
+# Environment Variables
+############################
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+.env
+.env.*
+!.env.example
+
+############################
+# Operating System
+############################
+
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+Desktop.ini
+
+############################
+# Temporary Files
+############################
+
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+############################
+# Node
+############################
+
+*.tsbuildinfo
+
+############################
+# NuGet
+############################
+
+*.nupkg
+packages/
+
+############################
+# ASP.NET Publish
+############################
+
+publish/
+wwwroot/uploads/
+
+############################
+# Docker
+############################
+
+docker-compose.override.yml
+
+############################
+# PostgreSQL
+############################
+
+*.db
+*.sqlite
+*.sqlite3
+
+############################
+# Misc
+############################
+
+*.cache

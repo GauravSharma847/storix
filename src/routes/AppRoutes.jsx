@@ -6,6 +6,7 @@ import Dashboard from "../pages/dashboard/DashBoard";
 import Files from "../pages/files/Files";
 import FolderDetails from "../pages/folders/FolderDetails";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import Collections from "../pages/collections/Collections";
 
 function AppRoutes() {
   return (
@@ -15,6 +16,8 @@ function AppRoutes() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/files" element={<Files />} />
+      <Route path="/favorites" element={<Collections mode="favorites" />} />
+      <Route path="/trash" element={<Collections mode="trash" />} />
       <Route path="/folders/:folderId"
         element={<FolderDetails />}
 

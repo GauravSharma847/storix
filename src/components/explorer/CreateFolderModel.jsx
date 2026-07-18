@@ -3,6 +3,7 @@
 import Button from "../common/Button/Button";
 import Input from "../common/Input/Input";
 import Modal from "../common/Modal/Modal";
+import "./CreateFolderModel.css";
 
 const CreateFolderModal = ({
     isOpen,

@@ -23,4 +23,10 @@
 
 .explorer-search input { width: 100%; min-height: 2.45rem; border: 0; outline: 0; font: inherit; }
 
+.view-toggle { display: inline-flex; overflow: hidden; border: 1px solid var(--border-color); border-radius: 0.65rem; background: #fff; }
+.view-toggle button { min-height: 2.6rem; padding: 0.45rem 0.7rem; border: 0; border-right: 1px solid var(--border-color); color: var(--text-secondary); background: transparent; font: inherit; font-size: 0.82rem; font-weight: 700; }
+.view-toggle button:last-child { border-right: 0; }
+.view-toggle button:hover { background: #f8fafc; }
+.view-toggle button.active { color: white; background: var(--primary-color); }
+
 @media (max-width: 520px) { .empty-state { padding: 2rem 0.5rem; } .explorer-search { min-width: 0; width: 100%; } }

@@ -18,3 +18,8 @@
 
     gap:1rem;
 }
+
+@media (max-width: 480px) {
+    .folder-modal-actions { flex-direction: column-reverse; gap: 0.65rem; }
+    .folder-modal-actions .btn { width: 100%; }
+}

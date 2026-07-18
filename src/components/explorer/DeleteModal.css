@@ -35,3 +35,8 @@
     color:white;
 
 }
+
+@media (max-width: 480px) {
+    .delete-folder-actions { flex-direction: column-reverse; gap: 0.65rem; margin-top: 1.5rem; }
+    .delete-folder-actions .btn { width: 100%; }
+}

@@ -1,3 +1,4 @@
+/** Converts a human-readable size such as "2.5 MB" into bytes. @param {string|number} size @returns {number} */
 export const getFileSizeInBytes = size => {
   const match = String(size).match(/([\d.]+)\s*(KB|MB|GB|B)/i);
   if (!match) return 0;
@@ -6,6 +7,7 @@ export const getFileSizeInBytes = size => {
   return Number(match[1]) * units[match[2].toUpperCase()];
 };
 
+/** Formats a byte total for display in the UI. @param {number} bytes @returns {string} */
 export const formatBytes = bytes => {
   if (!bytes) return "0 KB";
   if (bytes < 1024 ** 2) return `${(bytes / 1024).toFixed(1)} KB`;

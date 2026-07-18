@@ -9,3 +9,8 @@
     margin-top:1rem;
 
 }
+
+@media (max-width: 480px) {
+    .rename-folder-actions { flex-direction: column-reverse; gap: 0.65rem; }
+    .rename-folder-actions .btn { width: 100%; }
+}

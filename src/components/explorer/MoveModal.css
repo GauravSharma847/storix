@@ -1,0 +1,3 @@
+.move-description { margin: 0 0 1.25rem; color: var(--text-secondary); }
+.move-select { display: flex; flex-direction: column; gap: 0.4rem; color: var(--text-primary); font-size: 0.9rem; font-weight: 650; }
+.move-select select { width: 100%; min-height: 2.7rem; padding: 0 0.7rem; border: 1px solid var(--border-color); border-radius: var(--radius); background: white; font: inherit; }
